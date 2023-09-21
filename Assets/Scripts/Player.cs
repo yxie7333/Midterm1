@@ -11,13 +11,12 @@ public class Player : MonoBehaviour
     
 
     private Rigidbody2D rb;
-    private int totalPelletsCollected = 0;
-    private int currentPelletsCanUse = 0;
+    public int totalPelletsCollected = 0;
+    public int currentPelletsCanUse = 0;
     private bool canPhase = false;
     private int originalLayer;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
-
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +70,13 @@ public class Player : MonoBehaviour
         {
             // Player has consumed the apple and wins the game.
             GameManager.instance.PlayerWon();
+            //GameManager.instance.GameOver(); // Assuming you have a GameOver function in your GameManager.
             Destroy(other.gameObject); // Destroy the apple
+        }
+        if (other.CompareTag("Ghosts"))
+        {
+            GameManager.instance.GameOver();
+            Debug.Log("over");
         }
     }
 
@@ -84,16 +89,19 @@ public class Player : MonoBehaviour
 
     private IEnumerator PhaseThroughWalls()
     {
+        currentPelletsCanUse -= pelletsToCollectForPhase;
+
         Color tempColor = originalColor;
         tempColor.a = 0.5f; // Set alpha to 0.5 to make it half-transparent
         spriteRenderer.color = tempColor;
-
+        
         gameObject.layer = LayerMask.NameToLayer("Phasing"); // Change to the Phasing layer to avoid wall collisions
         yield return new WaitForSeconds(phaseDuration);
         gameObject.layer = originalLayer; // Return to the original layer after phaseDuration
         spriteRenderer.color = originalColor;
+        
         canPhase = false; // Reset phase ability after use
-        currentPelletsCanUse -= pelletsToCollectForPhase;
+        
         
     }
 

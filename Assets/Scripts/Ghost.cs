@@ -72,13 +72,14 @@ public class Ghost : MonoBehaviour
         // Check collision with player to end the game
         if (col.gameObject.CompareTag("Player"))
         {
-            GameOver();
+            GameManager.instance.GameOver();
         }
     }
 
-    private void GameOver()
+ /*   private void GameOver()
     {
         Debug.Log("Game Over!");
         GameManager.instance.GameOver();
     }
+ */
 }

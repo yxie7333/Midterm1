@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;  // Singleton instance.
-
     public enum GameState
     {
         Playing,
@@ -18,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pattern implementation.
         if (instance == null)
         {
             instance = this;
@@ -33,24 +29,33 @@ public class GameManager : MonoBehaviour
     // When the game is over.
     public void GameOver()
     {
+        Time.timeScale = 1; // Reset time scale before changing scene
         currentState = GameState.GameOver;
-        
-        Debug.Log("Game Over!");
-
-        // RestartGame();
+        //SceneManager.LoadScene("LossScene");
+        StartCoroutine(WaitAndRestartGame(2f));
     }
 
     public void PlayerWon()
     {
+        Time.timeScale = 1; // Reset time scale before changing scene
         currentState = GameState.PlayerWon;
-        Debug.Log("Player Won!");
-
-        // RestartGame();
+        //SceneManager.LoadScene("WinScene");
+        StartCoroutine(WaitAndRestartGame(2f));
     }
 
-    // Function to restart the game.
-    public void RestartGame()
+    public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Background", LoadSceneMode.Additive);
+        currentState = GameState.Playing;
     }
+
+    private IEnumerator WaitAndRestartGame(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        StartGame();
+    }
+
+    // Singleton Instance
+    public static GameManager instance;
 }
