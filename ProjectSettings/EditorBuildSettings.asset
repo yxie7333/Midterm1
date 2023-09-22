@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Background.unity
     guid: 2d4d7c9bb6a4a9a40aaf477991230bd8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/end.unity
     guid: 3dd4ea157b54e81408fdf0e37a3e277a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/win.unity
     guid: 739c5766e7e974c4caa18d2fc1ebf664
   - enabled: 1
